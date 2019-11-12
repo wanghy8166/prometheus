@@ -1,0 +1,13 @@
+groups:
+- name: any
+  rules:
+  - alert: "InstanceDown"
+    expr: up == 0
+    for: 5m
+    labels:
+      severity: "一般严重"
+      hostname: "{{ $labels.instance }}"
+    annotations:
+      value: "{{ $value }}"
+      summary: "Instance {{ $labels.instance }} down"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes."
