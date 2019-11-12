@@ -2,12 +2,12 @@ groups:
 - name: docker
   rules:
   - alert: "DockerInstanceDown"
-    expr: floor(rate(container_last_seen{image!=""} [15m])) < 1 
+    expr: rate(container_last_seen{image!=""}[15m])*100 <= 99 
     for: 5m
     labels:
       severity: "警告"
       hostname: "{{ $labels.instance }}"
     annotations:
       value: "{{ $value }}"
-      summary: "Docker容器Down（若值一直不为1,一会会自动解除告警,由您判断是否人工启动容器）"
+      summary: "Docker容器Down（若值一直不接近99,一会会自动解除告警,由您判断是否人工启动容器）"
       description: "{{ $labels.name }}异常"
