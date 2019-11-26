@@ -1,0 +1,13 @@
+groups:
+- name: jvm
+  rules:
+  - alert: "heap_use"
+    expr: jvm_memory_bytes_used{area="heap"} / jvm_memory_bytes_max{area="heap"} * 100 > 95 or java_lang_Memory_HeapMemoryUsage_used / java_lang_Memory_HeapMemoryUsage_max * 100 > 95  
+    for: 5m
+    labels:
+      severity: "警告"
+      hostname: "{{ $labels.instance }}"
+    annotations:
+      value: "{{ $value }}%"
+      summary: "堆内存高"
+      description: "堆内存利用率,5分钟持续>95%"
