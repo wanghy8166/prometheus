@@ -1,0 +1,141 @@
+# cd /usr/local/database_exporter/config/oracle_collectors
+# cat oracle.collector.yml
+
+# A collector defining standard metrics for Oracle Database Server.
+#
+#
+
+collector_name: oracle_metrics
+
+# Similar to global.min_interval, but applies to the queries defined by this collector only.
+# min_interval: 0s
+
+metrics:
+# SELECT decode(DATABASE_ROLE, 'PRIMARY', '主库执行sql', '备库执行sql') alias FROM V$DATABASE
+
+# tablespace_size
+  - metric_name: oracle_tablespace_size
+    type: gauge
+    help: 'Size of oracle db tablespaces.'
+    values:
+      - free_rate
+    key_labels:
+      - tablespace_name
+    query: |
+      SELECT a.tablespace_name "tablespace_name",
+             round(b.free_mb / a.total_mb * 100, 2) "free_rate"
+        FROM (SELECT tablespace_name, SUM(bytes) / 1024 / 1024 total_mb
+                FROM dba_data_files
+               GROUP BY tablespace_name) a,
+             (SELECT tablespace_name, SUM(bytes) / 1024 / 1024 free_mb
+                FROM dba_free_space
+               GROUP BY tablespace_name) b
+       WHERE a.tablespace_name = b.tablespace_name(+)
+         and a.TABLESPACE_NAME not in ('SYSTEM', 'SYSAUX')
+         and a.TABLESPACE_NAME not like 'UNDOTBS%'
+         and b.free_mb < 20 * 1024
+
+# asm_space
+  - metric_name: oracle_asm_space
+    type: gauge
+    help: 'Size of oracle db asm_space.'
+    values:
+      - free_rate
+    key_labels:
+      - name
+      - free_mb
+    query: |
+      select name "name", free_mb "free_mb", round((free_mb / total_mb) * 100, 2) "free_rate" from v$ASM_DISKGROUP
+
+# 归档
+  - metric_name: oracle_archive_size
+    type: gauge
+    help: 'Size of oracle db archive.'
+    values:
+      - value
+    key_labels:
+      - archive_mb
+    query: |
+      select 'archive_mb' "archive_mb",nvl(round(sum(blocks * block_size) / 1024 / 1024), 0) "value"
+        from v$archived_log
+       where thread# = (select thread# from v$instance)
+         and FIRST_TIME >= (sysdate - 30 / 24 / 60) 
+
+# dbtime_load
+  - metric_name: oracle_dbtime_load
+    type: gauge
+    help: 'Size of oracle db dbtime_load.'
+    values:
+      - value
+    key_labels:
+      - dbtime_load
+    query: |
+      SELECT 'dbtime_load' "dbtime_load",decode(DATABASE_ROLE, 'PRIMARY', (
+      select round(((real.VALUE - last.value) / 1000000 / 60) / ((sysdate + 1 / 24 / 60 / 60 - to_date(to_char(end_interval_time, 'yyyymmddHH24MISS'), 'yyyymmddHH24MISS')) * 24 * 60) * 100, 2)  
+              from (select * from (select t.end_interval_time, v.value 
+                              FROM DBA_HIST_SYS_TIME_MODEL v, dba_hist_snapshot t 
+                             WHERE v.STAT_NAME = 'DB time' 
+                               and t.snap_id = v.snap_id 
+                               and t.instance_number = v.instance_number 
+                               and v.instance_number = (select instance_number from v$instance) 
+                               and t.begin_interval_time >= sysdate - 140 / (24 * 60) 
+                             order by t.snap_id desc) 
+                     where rownum = 1) last, v$SYS_TIME_MODEL real 
+             where real.stat_name = 'DB time'
+      ), 0) "value" FROM V$DATABASE 
+
+# sessions
+  - metric_name: oracle_session_active
+    type: gauge
+    help: 'Size of oracle db session_active.'
+    values:
+      - value
+    key_labels:
+      - session_active
+    query: |
+      select 'session_active' "session_active",count(1) "value" from v$session where TYPE='USER' and status='ACTIVE'
+
+# dg_archived_log
+  - metric_name: oracle_dg_archived_log
+    type: gauge
+    help: 'Size of oracle db dg_archived_log.'
+    values:
+      - value
+    key_labels:
+      - dg_archived_log
+    query: |
+      SELECT 'dg_archived_log' "dg_archived_log",decode(DATABASE_ROLE,
+                    'PRIMARY',
+                    0,
+                    (select count(1) from v$archived_log where applied = 'NO')) "value"
+        FROM V$DATABASE
+
+# checkBitAttack
+  - metric_name: oracle_checkBitAttack
+    type: gauge
+    help: 'Size of oracle db checkBitAttack.'
+    values:
+      - value
+    key_labels:
+      - checkBitAttack
+    query: |
+      Select 'checkBitAttack' "checkBitAttack",Count(1) "value"
+        From (Select 1
+                From Dba_Triggers
+               Where Trigger_Name Like 'DBMS_%_INTERNAL%'
+              Union All
+              Select 1
+                From Dba_Procedures
+               Where Object_Name Like 'DBMS_%_INTERNAL% '
+              Union All
+              Select 1
+                From Dba_Objects
+               Where Object_Name Like 'DBMS_CORE_INTERNA%'
+                  Or Object_Name Like 'DBMS_SYSTEM_INTERNA%'
+                  Or Object_Name Like 'DBMS_SUPPORT_INTERNA%'
+                  Or Object_Name Like 'DBMS_STANDARD_FUN9%'
+                  Or Object_Name Like 'ORACHK%'
+              Union All
+              Select 1
+                From Dba_Jobs
+               Where What Like 'DBMS_STANDARD_FUN9%')
