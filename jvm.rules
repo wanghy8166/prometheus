@@ -1,6 +1,17 @@
 groups:
 - name: jvm
   rules:
+  - alert: "jmx_scrape_error"
+    expr: jmx_scrape_error == 1
+    for: 5m
+    labels:
+      severity: "严重"
+      hostname: "{{ $labels.instance }}"
+    annotations:
+      value: "{{ $value }}"
+      summary: "jmx {{ $labels.instance }} scrape error"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} has been scrape error for more than 5 minutes."
+
   - alert: "heap_use"
     expr: jvm_memory_bytes_used{area="heap"} / jvm_memory_bytes_max{area="heap"} * 100 > 95 or java_lang_Memory_HeapMemoryUsage_used / java_lang_Memory_HeapMemoryUsage_max * 100 > 95  
     for: 5m
