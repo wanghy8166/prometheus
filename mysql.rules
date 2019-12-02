@@ -1,0 +1,13 @@
+groups:
+- name: mysql
+  rules:
+  - alert: "MySQLDown"
+    expr: mysql_up == 0
+    for: 5m
+    labels:
+      severity: "严重"
+      hostname: "{{ $labels.instance }}"
+    annotations:
+      value: "{{ $value }}"
+      summary: "MySQL {{ $labels.instance }} down"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes."
