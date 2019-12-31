@@ -30,3 +30,6 @@ https://github.com/ricoberger/script_exporter  探测:脚本执行输出、脚�
 
 # 在业务中集成自定义Metrics,不需要exporter   
 http://ylzheng.com/2018/01/24/use-prometheus-monitor-your-spring-boot-application/  
+
+# 远端存储方案  
+https://prometheus.io/docs/operating/integrations/#remote-endpoints-and-storage  
