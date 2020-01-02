@@ -32,4 +32,6 @@ https://github.com/ricoberger/script_exporter  探测:脚本执行输出、脚�
 http://ylzheng.com/2018/01/24/use-prometheus-monitor-your-spring-boot-application/  
 
 # 远端存储方案  
+https://prometheus.io/docs/prometheus/latest/storage  
+
 https://prometheus.io/docs/operating/integrations/#remote-endpoints-and-storage  
