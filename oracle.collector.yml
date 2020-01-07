@@ -43,9 +43,8 @@ metrics:
       - free_rate
     key_labels:
       - name
-      - free_mb
     query: |
-      select name "name", free_mb "free_mb", round((free_mb / total_mb) * 100, 2) "free_rate" from v$ASM_DISKGROUP
+      select name "name", round((free_mb / total_mb) * 100, 2) "free_rate" from v$ASM_DISKGROUP
 
 # 归档
   - metric_name: oracle_archive_size
