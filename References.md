@@ -1,19 +1,21 @@
 # rules  
-https://awesome-prometheus-alerts.grep.to
+https://awesome-prometheus-alerts.grep.to  
 
-https://www.prometheus.wang/di-wu-zhang-jing-bao/chang-yong-cha-xun-alert-rules
+https://www.prometheus.wang/di-wu-zhang-jing-bao/chang-yong-cha-xun-alert-rules  
 
-https://github.com/coreos/kube-prometheus/blob/master/manifests/prometheus-rules.yaml
+https://github.com/coreos/kube-prometheus/blob/master/manifests/prometheus-rules.yaml  
 
 # dashboards  
-https://github.com/percona/grafana-dashboards/tree/master/dashboards
+https://github.com/percona/grafana-dashboards/tree/master/dashboards  
+
+https://github.com/grafana/kubernetes-app  
 
 # 常用exporter  
 https://prometheus.io/docs/instrumenting/exporters  
 
 https://github.com/prometheus/prometheus/wiki/Default-port-allocations  
 
-# 自定义exporter
+# 自定义exporter  
 - 自己写 exporter 暴露指标  
 - 自己写脚本发给 pushgateway 暴露指标  
 - 通过 https://github.com/prometheus/client_python 写脚本暴露指标  
