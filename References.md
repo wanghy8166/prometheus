@@ -10,6 +10,10 @@ https://github.com/percona/grafana-dashboards/tree/master/dashboards
 
 https://github.com/grafana/kubernetes-app  
 
+https://github.com/aliyun/aliyun-cms-grafana  
+
+https://github.com/TencentCloud/tencentcloud-monitor-grafana-app  
+
 # 常用exporter  
 https://prometheus.io/docs/instrumenting/exporters  
 
