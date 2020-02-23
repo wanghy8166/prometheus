@@ -6,7 +6,6 @@ groups:
     for: 5m
     labels:
       severity: "警告"
-      hostname: "{{ $labels.instance }}"
     annotations:
       value: "{{ $value }}%"
       summary: "cpu高"
@@ -17,7 +16,6 @@ groups:
     for: 5m
     labels:
       severity: "灾难"
-      hostname: "{{ $labels.instance }}"
     annotations:
       value: "{{ $value }}%"
       summary: "磁盘快满了"

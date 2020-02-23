@@ -6,7 +6,6 @@ groups:
     for: 5m
     labels:
       severity: "警告"
-      hostname: "{{ $labels.instance }}"
     annotations:
       value: "{{ $value }}"
       summary: "Docker容器Down（若值一直不接近99,一会会自动解除告警,由您判断是否人工启动容器）"

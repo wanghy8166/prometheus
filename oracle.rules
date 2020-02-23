@@ -6,7 +6,6 @@ groups:
     for: 5m
     labels:
       severity: "严重"
-      hostname: "{{ $labels.exported_instance }}"
     annotations:
       value: "{{ $value }}%"
       summary: "oracle剩余表空间不足"
@@ -17,7 +16,6 @@ groups:
     for: 5m
     labels:
       severity: "严重"
-      hostname: "{{ $labels.exported_instance }}"
     annotations:
       value: "{{ $value }}%"
       summary: "oracle-asm磁盘空间不足"
@@ -28,7 +26,6 @@ groups:
     for: 5m
     labels:
       severity: "警告"
-      hostname: "{{ $labels.exported_instance }}"
     annotations:
       value: "{{ $value }}%"
       summary: "oracle_dbtime_load负载高"
@@ -38,8 +35,7 @@ groups:
     expr: oracle_dg_archived_log{exported_instance=~".*"} > 2
     for: 30m
     labels:
-      severity: "一般严重"
-      hostname: "{{ $labels.exported_instance }}"
+      severity: "警告"
     annotations:
       value: "{{ $value }}%"
       summary: "ADG备库同步有延迟"
@@ -50,7 +46,6 @@ groups:
     for: 5m
     labels:
       severity: "灾难"
-      hostname: "{{ $labels.exported_instance }}"
     annotations:
       value: "{{ $value }}%"
       summary: "Oracle中有勒索脚本"
