@@ -1,0 +1,12 @@
+groups:
+- name: pgbouncer
+  rules:
+  - alert: "PGbouncerDown"
+    expr: pgbouncer_up == 0
+    for: 5m
+    labels:
+      severity: "严重"
+    annotations:
+      value: "{{ $value }}"
+      summary: "PGbouncer {{ $labels.instance }} down"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes."
