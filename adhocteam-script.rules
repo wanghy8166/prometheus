@@ -1,0 +1,12 @@
+groups:
+- name: adhocteam-script
+  rules:
+  - alert: "adhocteam-script"
+    expr: script_success == 0
+    for: 5m
+    labels:
+      severity: "严重"
+    annotations:
+      value: "{{ $value }}"
+      summary: "adhocteam-script {{ $labels.instance }} , {{ $labels.script }} 脚本执行失败"
+      description: "{{ $labels.instance }} , {{ $labels.script }} of job {{ $labels.job }} has error for more than 5 minutes."
