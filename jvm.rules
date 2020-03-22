@@ -20,3 +20,13 @@ groups:
       value: "{{ $value }}%"
       summary: "堆内存高"
       description: "堆内存利用率,5分钟持续>95%"
+
+  - alert: "ThreadCount"
+    expr: java_lang_Threading_ThreadCount>500
+    for: 5m
+    labels:
+      severity: "严重"
+    annotations:
+      value: "{{ $value }}"
+      summary: "jvm {{ $labels.instance }} ThreadCount>500"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} ThreadCount>500 for more than 5 minutes."
