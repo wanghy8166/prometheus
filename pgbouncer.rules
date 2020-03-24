@@ -8,5 +8,5 @@ groups:
       severity: "严重"
     annotations:
       value: "{{ $value }}"
-      summary: "PGbouncer {{ $labels.instance }} down"
-      description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes."
+      summary: "PGbouncer {{ $labels.instance }} {{ $labels.pool_id }} down"
+      description: "{{ $labels.instance }} {{ $labels.pool_id }} of job {{ $labels.job }} has been down for more than 5 minutes."
