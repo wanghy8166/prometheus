@@ -48,5 +48,10 @@ https://prometheus.io/docs/prometheus/latest/storage
 https://prometheus.io/docs/operating/integrations/#remote-endpoints-and-storage  
 
 # mtail日志分析  
-实时或近实时监视日志，以用于性能测量和告警。  
+实时或近实时监视日志，以用于性能测量和告警，没有ELK的时候就用它吧。  
 https://github.com/google/mtail  
+1. 在日志更新较快的时候，可以修改scrape_interval:5s让prometheus尽快抓取。
+2. 由于抓取始终有间隔，在高并发场景，可以记录"汇总执行时间"、"汇总执行次数"，再换算得出所要的指标。  
+具体可参考  
+https://github.com/google/mtail/blob/master/docs/Programming-Guide.md#storing-intermediate-state  
+https://github.com/google/mtail/blob/master/docs/Programming-Guide.md#computing-moving-averages  
