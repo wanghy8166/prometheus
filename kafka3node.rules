@@ -1,0 +1,12 @@
+groups:
+- name: kafka
+  rules:
+  - alert: "kafka_brokers"
+    expr: kafka_brokers < 3
+    for: 5m
+    labels:
+      severity: "严重"
+    annotations:
+      value: "{{ $value }}"
+      summary: "kafka_brokers < 3 {{ $labels.instance }} "
+      description: "{{ $labels.instance }} of job {{ $labels.job }} has kafka_brokers < 3 for more than 5 minutes."
