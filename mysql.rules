@@ -10,3 +10,23 @@ groups:
       value: "{{ $value }}"
       summary: "MySQL {{ $labels.instance }} down"
       description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes."
+
+  - alert: "slave_io_running"
+    expr: mysql_slave_status_slave_io_running == 0
+    for: 5m
+    labels:
+      severity: "严重"
+    annotations:
+      value: "{{ $value }}"
+      summary: "MySQL {{ $labels.instance }} slave_io_running is down"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} slave_io_running has been down for more than 5 minutes."
+
+  - alert: "slave_sql_running"
+    expr: mysql_slave_status_slave_sql_running == 0
+    for: 5m
+    labels:
+      severity: "严重"
+    annotations:
+      value: "{{ $value }}"
+      summary: "MySQL {{ $labels.instance }} slave_sql_running is down"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} slave_sql_running has been down for more than 5 minutes."
