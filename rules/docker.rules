@@ -1,0 +1,12 @@
+groups:
+- name: docker
+  rules:
+  - alert: "DockerInstanceDown"
+    expr: rate(container_last_seen{image!=""}[15m])*100 <= 99 
+    for: 5m
+    labels:
+      severity: "警告"
+    annotations:
+      value: "{{ $value }}"
+      summary: "Docker容器异常"
+      description: "Docker容器{{ $labels.name }}异常"

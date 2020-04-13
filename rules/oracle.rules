@@ -1,0 +1,52 @@
+groups:
+- name: oracle
+  rules:
+  - alert: "oracle_tablespace_size"
+    expr: oracle_tablespace_size{exported_instance=~".*",tablespace_name=~".*"} < 10
+    for: 5m
+    labels:
+      severity: "严重"
+    annotations:
+      value: "{{ $value }}%"
+      summary: "oracle表空间不足"
+      description: "oracle {{ $labels.exported_instance }} 表空间{{ $labels.tablespace_name }} < 10%"
+
+  - alert: "oracle_asm_space"
+    expr: oracle_asm_space{exported_instance=~".*",name=~".*"} < 10
+    for: 5m
+    labels:
+      severity: "严重"
+    annotations:
+      value: "{{ $value }}%"
+      summary: "oracle-asm磁盘空间不足"
+      description: "oracle {{ $labels.exported_instance }} asm磁盘{{ $labels.name }} < 10%"
+
+  - alert: "oracle_dbtime_load"
+    expr: oracle_dbtime_load{exported_instance=~".*"} > 2000
+    for: 5m
+    labels:
+      severity: "警告"
+    annotations:
+      value: "{{ $value }}%"
+      summary: "oracle_dbtime_load负载高"
+      description: "oracle {{ $labels.exported_instance }} dbtime_load负载 > 2000%"
+
+  - alert: "oracle_dg_archived_log"
+    expr: oracle_dg_archived_log{exported_instance=~".*"} > 2
+    for: 30m
+    labels:
+      severity: "警告"
+    annotations:
+      value: "{{ $value }}%"
+      summary: "ADG备库同步有延迟"
+      description: "oracle {{ $labels.exported_instance }} ADG备库同步有延迟,dg_archived_log > 2"
+
+  - alert: "oracle_checkBitAttack"
+    expr: oracle_checkBitAttack{exported_instance=~".*"} > 0
+    for: 5m
+    labels:
+      severity: "灾难"
+    annotations:
+      value: "{{ $value }}%"
+      summary: "Oracle中有勒索脚本"
+      description: "oracle {{ $labels.exported_instance }} 有勒索脚本,checkBitAttack > 0"

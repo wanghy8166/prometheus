@@ -1,0 +1,22 @@
+groups:
+- name: windows
+  rules:
+  - alert: "cpu_use"
+    expr: 100 - (avg(irate(wmi_cpu_time_total{mode="idle"}[5m])))*100 > 85
+    for: 5m
+    labels:
+      severity: "警告"
+    annotations:
+      value: "{{ $value }}%"
+      summary: "cpu高"
+      description: "cpu利用率,5分钟平均值>85%"
+
+  - alert: "disk_use"
+    expr: 100 - (wmi_logical_disk_free_bytes / wmi_logical_disk_size_bytes)*100 > 95
+    for: 5m
+    labels:
+      severity: "灾难"
+    annotations:
+      value: "{{ $value }}%"
+      summary: "磁盘快满了"
+      description: "{{ $labels.volume }}磁盘利用率,5分钟持续>95%"

@@ -1,0 +1,12 @@
+groups:
+- name: process
+  rules:
+  - alert: "namedprocess_scrape_errors"
+    expr: namedprocess_scrape_errors == 1
+    for: 5m
+    labels:
+      severity: "严重"
+    annotations:
+      value: "{{ $value }}"
+      summary: "process拉取失败"
+      description: "process拉取失败"

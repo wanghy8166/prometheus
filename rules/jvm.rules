@@ -1,0 +1,42 @@
+groups:
+- name: jvm
+  rules:
+  - alert: "jmx_scrape_error"
+    expr: jmx_scrape_error == 1
+    for: 5m
+    labels:
+      severity: "严重"
+    annotations:
+      value: "{{ $value }}"
+      summary: "jmx拉取数据异常"
+      description: "jmx拉取数据异常"
+
+  - alert: "heap_use"
+    expr: jvm_memory_bytes_used{area="heap"} / jvm_memory_bytes_max{area="heap"} * 100 > 95 or java_lang_Memory_HeapMemoryUsage_used / java_lang_Memory_HeapMemoryUsage_max * 100 > 95  
+    for: 5m
+    labels:
+      severity: "警告"
+    annotations:
+      value: "{{ $value }}%"
+      summary: "堆内存高"
+      description: "堆内存利用率,5分钟持续>95%"
+
+  - alert: "ThreadCount"
+    expr: java_lang_Threading_ThreadCount>500
+    for: 5m
+    labels:
+      severity: "严重"
+    annotations:
+      value: "{{ $value }}"
+      summary: "ThreadCount>500"
+      description: "ThreadCount>500"
+
+  - alert: "GC-Throughput"
+    expr: ( java_lang_Runtime_Uptime - ignoring(name) java_lang_GarbageCollector_CollectionTime{name=~"ParNew"} - ignoring(name) java_lang_GarbageCollector_CollectionTime{name=~"ConcurrentMarkSweep"} )/java_lang_Runtime_Uptime < 0.96
+    for: 5m
+    labels:
+      severity: "严重"
+    annotations:
+      value: "{{ $value }}"
+      summary: "GC总吞吐率<96%"
+      description: "GC总吞吐率<96%"

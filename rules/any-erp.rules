@@ -1,0 +1,12 @@
+groups:
+- name: any
+  rules:
+  - alert: "InstanceDown"
+    expr: up{job=~"oracle|docker|jmx"} == 0
+    for: 5m
+    labels:
+      severity: "严重"
+    annotations:
+      value: "{{ $value }}"
+      summary: "{{ $labels.job }}实例Down"
+      description: "{{ $labels.job }}实例Down"

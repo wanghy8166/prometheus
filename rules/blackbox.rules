@@ -1,0 +1,12 @@
+groups:
+- name: blackbox
+  rules:
+  - alert: "probe_success"
+    expr: probe_success == 0
+    for: 5m
+    labels:
+      severity: "严重"
+    annotations:
+      value: "{{ $value }}"
+      summary: "blackbox探测失败"
+      description: "blackbox探测失败"

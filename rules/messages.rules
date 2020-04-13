@@ -1,0 +1,12 @@
+groups:
+- name: messages
+  rules:
+  - alert: "messages-killed"
+    expr: irate(killed[5m]) > 0
+    for: 10s
+    labels:
+      severity: "警告"
+    annotations:
+      value: "{{ $value }}%"
+      summary: "有pg进程被杀了"
+      description: "有pg进程被杀了"

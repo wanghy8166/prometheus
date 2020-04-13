@@ -1,0 +1,12 @@
+groups:
+- name: pgbouncer
+  rules:
+  - alert: "PGbouncerDown"
+    expr: pgbouncer_up == 0
+    for: 5m
+    labels:
+      severity: "严重"
+    annotations:
+      value: "{{ $value }}"
+      summary: "PGbouncer {{ $labels.pool_id }} Down"
+      description: "PGbouncer {{ $labels.pool_id }} Down"

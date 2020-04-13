@@ -1,0 +1,32 @@
+groups:
+- name: mysql
+  rules:
+  - alert: "MySQLDown"
+    expr: mysql_up == 0
+    for: 5m
+    labels:
+      severity: "严重"
+    annotations:
+      value: "{{ $value }}"
+      summary: "MySQL Down"
+      description: "MySQL Down"
+
+  - alert: "slave_io_running"
+    expr: mysql_slave_status_slave_io_running == 0
+    for: 5m
+    labels:
+      severity: "严重"
+    annotations:
+      value: "{{ $value }}"
+      summary: "MySQL slave_io_running is Down"
+      description: "MySQL slave_io_running is Down"
+
+  - alert: "slave_sql_running"
+    expr: mysql_slave_status_slave_sql_running == 0
+    for: 5m
+    labels:
+      severity: "严重"
+    annotations:
+      value: "{{ $value }}"
+      summary: "MySQL slave_sql_running is Down"
+      description: "MySQL slave_sql_running is Down"
