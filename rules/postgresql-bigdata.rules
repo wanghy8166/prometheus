@@ -1,0 +1,21 @@
+groups:
+- name: postgresql-bigdata
+  rules:
+  - alert: "PostgreSQL standby dalay"
+    expr: pg_standby_dalay_standby_dalay == 0
+    for: 3m
+    labels:
+      severity: "严重"
+    annotations:
+      value: "{{ $value }}"
+      summary: "PostgreSQL standby 数据延迟超过1分钟"
+      description: "PostgreSQL standby 数据延迟超过1分钟"
+  - alert: "PostgreSQL lock wait"
+    expr: pg_logc_wait_logc_wait_hour == 1
+    for: 5m
+    labels:
+      severity: "严重"
+    annotations:
+      value: "{{ $value }}"
+      summary: "PostgreSQL 锁等待超过1分钟"
+      description: "PostgreSQL 锁等待超过1分钟"
