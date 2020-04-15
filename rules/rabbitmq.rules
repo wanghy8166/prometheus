@@ -1,0 +1,12 @@
+groups:
+- name: rabbitmq
+  rules:
+  - alert: "rabbitmq_up"
+    expr: rabbitmq_up{cluster != ''}==0
+    for: 5m
+    labels:
+      severity: "严重"
+    annotations:
+      value: "{{ $value }}"
+      summary: "RabbitMQ Down"
+      description: "RabbitMQ Down"

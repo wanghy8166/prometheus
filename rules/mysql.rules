@@ -18,8 +18,8 @@ groups:
       severity: "严重"
     annotations:
       value: "{{ $value }}"
-      summary: "MySQL slave_io_running is Down"
-      description: "MySQL slave_io_running is Down"
+      summary: "MySQL slave_io_running Down"
+      description: "MySQL slave_io_running Down"
 
   - alert: "slave_sql_running"
     expr: mysql_slave_status_slave_sql_running == 0
@@ -28,5 +28,5 @@ groups:
       severity: "严重"
     annotations:
       value: "{{ $value }}"
-      summary: "MySQL slave_sql_running is Down"
-      description: "MySQL slave_sql_running is Down"
+      summary: "MySQL slave_sql_running Down"
+      description: "MySQL slave_sql_running Down"

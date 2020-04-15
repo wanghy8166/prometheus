@@ -18,7 +18,7 @@ groups:
       severity: "警告"
     annotations:
       value: "{{ $value }}%"
-      summary: "堆内存高"
+      summary: "堆内存利用率,5分钟持续>95%"
       description: "堆内存利用率,5分钟持续>95%"
 
   - alert: "ThreadCount"
