@@ -1,0 +1,10 @@
+# mysql-slow.mtail 取MySQL慢日志里面的查询时间
+gauge tmp_query_time
+gauge tmp_lock_time
+# Query_time: 3.000143  Lock_time: 0.000000 Rows_sent: 1  Rows_examined: 0
+const QUERY_TIME /^# Query_time: (\d+\.\d+)\s*Lock_time: (\d+\.\d+)/
+
+// + QUERY_TIME {
+  tmp_query_time = $1
+  tmp_lock_time = $2
+}
