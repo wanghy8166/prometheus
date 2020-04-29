@@ -8,5 +8,5 @@ groups:
       severity: "警告"
     annotations:
       value: "{{ $value }}"
-      summary: "Docker容器{{ $labels.name }}异常"
-      description: "Docker容器{{ $labels.name }}异常"
+      summary: "Docker容器{{ $labels.name }}异常:停了/删除/重建/网络"
+      description: "Docker容器{{ $labels.name }}异常:停了/删除/重建/网络"
