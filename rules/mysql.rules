@@ -30,3 +30,13 @@ groups:
       value: "{{ $value }}"
       summary: "MySQL slave_sql_running Down"
       description: "MySQL slave_sql_running Down"
+
+  - alert: "seconds_behind_master"
+    expr: mysql_slave_status_seconds_behind_master > 1800
+    for: 5m
+    labels:
+      severity: "警告"
+    annotations:
+      value: "{{ $value }}"
+      summary: "MySQL从库复制延迟>30分钟"
+      description: "MySQL从库复制延迟>30分钟"
