@@ -46,7 +46,6 @@ metrics:
       - name
     query: |
       select name "name", round((free_mb / total_mb) * 100, 2) "free_rate" from v$ASM_DISKGROUP
-
 # 归档
   - metric_name: oracle_archive_size
     type: gauge
@@ -60,7 +59,6 @@ metrics:
         from v$archived_log
        where thread# = (select thread# from v$instance)
          and FIRST_TIME >= (sysdate - 30 / 24 / 60) 
-
 # dbtime_load
   - metric_name: oracle_dbtime_load
     type: gauge
@@ -70,7 +68,7 @@ metrics:
     key_labels:
       - dbtime_load
     query: |
-      SELECT 'dbtime_load' "dbtime_load",decode(DATABASE_ROLE, 'PRIMARY', (
+      SELECT 'dbtime_load' "dbtime_load",nvl(decode(DATABASE_ROLE, 'PRIMARY', (
       select round(((real.VALUE - last.value) / 1000000 / 60) / ((sysdate + 1 / 24 / 60 / 60 - to_date(to_char(end_interval_time, 'yyyymmddHH24MISS'), 'yyyymmddHH24MISS')) * 24 * 60) * 100, 2)  
               from (select * from (select t.end_interval_time, v.value 
                               FROM DBA_HIST_SYS_TIME_MODEL v, dba_hist_snapshot t 
@@ -82,8 +80,7 @@ metrics:
                              order by t.snap_id desc) 
                      where rownum = 1) last, v$SYS_TIME_MODEL real 
              where real.stat_name = 'DB time'
-      ), 0) "value" FROM V$DATABASE 
-
+      ), 0),0) "value" FROM V$DATABASE 
 # sessions
   - metric_name: oracle_session_active
     type: gauge
@@ -94,7 +91,6 @@ metrics:
       - session_active
     query: |
       select 'session_active' "session_active",count(1) "value" from v$session where TYPE='USER' and status='ACTIVE'
-
 # dg_archived_log
   - metric_name: oracle_dg_archived_log
     type: gauge
@@ -109,7 +105,6 @@ metrics:
                     0,
                     (select count(1) from v$archived_log where applied = 'NO')) "value"
         FROM V$DATABASE
-
 # checkBitAttack
   - metric_name: oracle_checkBitAttack
     type: gauge
