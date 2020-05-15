@@ -1,0 +1,12 @@
+groups:
+- name: consul
+  rules:
+  - alert: "consul_up"
+    expr: consul_up==0
+    for: 5m
+    labels:
+      severity: "严重"
+    annotations:
+      value: "{{ $value }}"
+      summary: "consul Down"
+      description: "consul Down"

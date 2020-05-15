@@ -1,6 +1,16 @@
 groups:
 - name: blackbox
   rules:
+  - alert: "blackbox_exporter_config_last_reload_successful"
+    expr: blackbox_exporter_config_last_reload_successful == 0
+    for: 5m
+    labels:
+      severity: "严重"
+    annotations:
+      value: "{{ $value }}"
+      summary: "blackbox_exporter配置载入失败"
+      description: "blackbox_exporter配置载入失败"
+
   - alert: "probe_success"
     expr: probe_success == 0
     for: 5m
