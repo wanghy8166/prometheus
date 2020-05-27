@@ -1,0 +1,12 @@
+groups:
+- name: baas-gateway
+  rules:
+  - alert: "OutOfDirectMemoryError"
+    expr: irate(OutOfDirectMemoryError[5m]) > 0
+    for: 10s
+    labels:
+      severity: "警告"
+    annotations:
+      value: "{{ $value }}%"
+      summary: "OutOfDirectMemoryError"
+      description: "OutOfDirectMemoryError"
