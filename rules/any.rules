@@ -2,7 +2,7 @@ groups:
 - name: any
   rules:
   - alert: "InstanceDown"
-    expr: up == 0
+    expr: up{exported_job!="oracle"} == 0
     for: 5m
     labels:
       severity: "严重"
@@ -10,3 +10,13 @@ groups:
       value: "{{ $value }}"
       summary: "{{ $labels.job }}实例Down"
       description: "{{ $labels.job }}实例Down"
+
+  - alert: "InstanceDown-oracle"
+    expr: up{exported_job=~"oracle"} == 0
+    for: 5m
+    labels:
+      severity: "严重"
+    annotations:
+      value: "{{ $value }}"
+      summary: "{{ $labels.exported_instance }}实例Down"
+      description: "{{ $labels.exported_instance }}实例Down"
