@@ -18,5 +18,5 @@ groups:
       severity: "严重"
     annotations:
       value: "{{ $value }}"
-      summary: "blackbox探测失败"
-      description: "blackbox探测失败"
+      summary: "地址访问失败"
+      description: "地址访问失败"
