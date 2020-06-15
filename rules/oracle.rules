@@ -9,7 +9,7 @@ groups:
     annotations:
       value: "{{ $value }}%"
       summary: "oracle表空间不足"
-      description: "oracle {{ $labels.exported_instance }} 表空间{{ $labels.tablespace_name }} < 10%"
+      description: "oracle {{ $labels.exported_instance }} 表空间{{ $labels.tablespace_name }} < 10% 且 < 20G"
 
   - alert: "oracle_asm_space"
     expr: oracle_asm_space{exported_instance=~".*",name=~".*"} < 10
