@@ -2,7 +2,7 @@ groups:
 - name: linux
   rules:
   - alert: "cpu_use"
-    expr: 100 - (avg by (instance,server) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 85 
+    expr: 100 - (avg by (instance,server,project) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 85 
     for: 5m
     labels:
       severity: "警告"
@@ -12,7 +12,7 @@ groups:
       description: "cpu利用率,5分钟平均值>85%"
 
   - alert: "cpu_iowait_use"
-    expr: avg by (instance,server) (irate(node_cpu_seconds_total{mode="iowait"}[5m])) * 100 > 35 
+    expr: avg by (instance,server,project) (irate(node_cpu_seconds_total{mode="iowait"}[5m])) * 100 > 35 
     for: 5m
     labels:
       severity: "警告"

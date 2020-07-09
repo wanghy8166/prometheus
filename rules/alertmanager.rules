@@ -1,0 +1,12 @@
+groups:
+- name: alertmanager
+  rules:
+  - alert: "level_error"
+    expr: irate(level_error[5m]) > 0
+    for: 10s
+    labels:
+      severity: "警告"
+    annotations:
+      value: "{{ $value }}%"
+      summary: "日志匹配到关键字level=error,重启可临时解决,请排查"
+      description: "日志匹配到关键字level=error,重启可临时解决,请排查"

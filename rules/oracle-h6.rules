@@ -1,0 +1,34 @@
+groups:
+- name: oracle-h6
+  rules:
+  - alert: "HD_MONITORLOG"
+    expr: HD_MONITORLOG == 1
+    for: 5m
+    labels:
+      severity: "警告"
+    annotations:
+      value: "{{ $value }}%"
+      summary: "oracle业务监控异常"
+      description: "oracle业务监控异常: {{ $labels.CONTENT }} "
+
+  - alert: "BUY1POOLS"
+    expr: BUY1POOLS > 10000
+    for: 5m
+    labels:
+      severity: "警告"
+    annotations:
+      value: "{{ $value }}%"
+      summary: "BUY1POOLS > 1w"
+      description: "BUY1POOLS > 1w"
+
+  - alert: "V_CUSTOM_LOG"
+    expr: V_CUSTOM_LOG == 1
+    for: 5m
+    labels:
+      severity: "警告"
+    annotations:
+      value: "{{ $value }}%"
+      summary: "自定义告警"
+      description: "自定义告警: {{ $labels.CONTENT }} "
+
+

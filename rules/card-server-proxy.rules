@@ -1,0 +1,12 @@
+groups:
+- name: card-server-proxy
+  rules:
+  - alert: "success-false"
+    expr: irate(success[5m]) == irate(false[5m]) and irate(false[5m]) > 0
+    for: 10s
+    labels:
+      severity: "警告"
+    annotations:
+      value: "{{ $value }}%"
+      summary: "接口服务card-server-proxy告警,日志匹配到关键字success:false,请排查"
+      description: "接口服务card-server-proxy告警,日志匹配到关键字success:false,请排查"

@@ -8,5 +8,5 @@ groups:
       severity: "警告"
     annotations:
       value: "{{ $value }}%"
-      summary: "OutOfDirectMemoryError"
-      description: "OutOfDirectMemoryError"
+      summary: "日志匹配到关键字OutOfDirectMemoryError,请排查"
+      description: "日志匹配到关键字OutOfDirectMemoryError,请排查"

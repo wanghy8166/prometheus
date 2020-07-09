@@ -8,5 +8,5 @@ groups:
       severity: "警告"
     annotations:
       value: "{{ $value }}%"
-      summary: "有pg进程被杀了"
-      description: "有pg进程被杀了"
+      summary: "有进程(pg)被杀了"
+      description: "有进程(pg)被杀了"
