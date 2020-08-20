@@ -40,3 +40,14 @@ groups:
       value: "{{ $value }}%"
       summary: "磁盘inode快满了"
       description: "{{ $labels.mountpoint }}磁盘inode利用率,5分钟持续>95%"
+
+  - alert: "mem_use"
+    expr: 100-(node_memory_MemAvailable_bytes/node_memory_MemTotal_bytes)*100>95 
+    for: 5m
+    labels:
+      severity: "灾难"
+    annotations:
+      value: "{{ $value }}%"
+      summary: "内存利用率,5分钟持续>95%"
+      description: "内存利用率,5分钟持续>95%"
+
