@@ -37,7 +37,7 @@ groups:
     labels:
       severity: "警告"
     annotations:
-      value: "{{ $value }}%"
+      value: "{{ $value }}"
       summary: "ADG备库同步有延迟"
       description: "oracle {{ $labels.exported_instance }} ADG备库同步有延迟,dg_archived_log > 2"
 
@@ -47,6 +47,17 @@ groups:
     labels:
       severity: "灾难"
     annotations:
-      value: "{{ $value }}%"
+      value: "{{ $value }}"
       summary: "Oracle中有勒索脚本"
       description: "oracle {{ $labels.exported_instance }} 有勒索脚本,checkBitAttack > 0"
+
+  - alert: "oracle_dba_jobs"
+    expr: oracle_dba_jobs{exported_instance=~".*"} >= 3
+    for: 5m
+    labels:
+      severity: "严重"
+    annotations:
+      value: "{{ $value }}"
+      summary: "oracle {{ $labels.exported_instance }} 有job{{ $JOB }}失败了{{ $value }}次:{{ $WHAT }}"
+      description: "oracle {{ $labels.exported_instance }} 有job{{ $JOB }}失败了{{ $value }}次:{{ $WHAT }}"
+
