@@ -46,6 +46,7 @@ metrics:
       - name
     query: |
       select name "name", round((free_mb / total_mb) * 100, 2) "free_rate" from v$ASM_DISKGROUP
+
 # 归档
   - metric_name: oracle_archive_size
     type: gauge
@@ -59,6 +60,7 @@ metrics:
         from v$archived_log
        where thread# = (select thread# from v$instance)
          and FIRST_TIME >= (sysdate - 30 / 24 / 60) 
+
 # dbtime_load
   - metric_name: oracle_dbtime_load
     type: gauge
@@ -81,6 +83,7 @@ metrics:
                      where rownum = 1) last, v$SYS_TIME_MODEL real 
              where real.stat_name = 'DB time'
       ), 0),0) "value" FROM V$DATABASE 
+
 # sessions
   - metric_name: oracle_session_active
     type: gauge
@@ -91,6 +94,7 @@ metrics:
       - session_active
     query: |
       select 'session_active' "session_active",count(1) "value" from v$session where TYPE='USER' and status='ACTIVE'
+
 # dg_archived_log
   - metric_name: oracle_dg_archived_log
     type: gauge
@@ -105,6 +109,7 @@ metrics:
                     0,
                     (select count(1) from v$archived_log where applied = 'NO')) "value"
         FROM V$DATABASE
+
 # checkBitAttack
   - metric_name: oracle_checkBitAttack
     type: gauge
@@ -134,3 +139,16 @@ metrics:
               Select 1
                 From Dba_Jobs
                Where What Like 'DBMS_STANDARD_FUN9%')
+
+# DBA_JOBS
+  - metric_name: oracle_dba_jobs
+    type: gauge
+    help: 'FAILURES DBA_JOBS'
+    values:
+      - FAILURES
+    key_labels:
+      - JOB
+      - WHAT
+    query: |
+      SELECT JOB, WHAT, FAILURES FROM DBA_JOBS WHERE FAILURES >= 3
+
