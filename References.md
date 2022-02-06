@@ -39,7 +39,8 @@ https://github.com/adhocteam/script_exporter   探测:脚本执行耗时、脚�
 https://github.com/ncabatoff/script-exporter   探测:脚本执行输出、脚本执行耗时、脚本是否在执行中、脚本执行次数  
 https://github.com/ricoberger/script_exporter  探测:脚本执行输出、脚本执行耗时、脚本执行是否成功  
 
-# 在业务中集成自定义Metrics,不需要exporter   
+# 在业务中集成自定义Metrics,不需要exporter  
+https://cloud.tencent.com/document/product/1416/56030  
 http://ylzheng.com/2018/01/24/use-prometheus-monitor-your-spring-boot-application/  
 
 # 远端存储方案  
