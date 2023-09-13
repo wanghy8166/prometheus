@@ -5,6 +5,8 @@ https://www.prometheus.wang/di-wu-zhang-jing-bao/chang-yong-cha-xun-alert-rules
 
 https://github.com/coreos/kube-prometheus/blob/master/manifests/prometheus-rules.yaml  
 
+https://ranchermanager.docs.rancher.com/zh/integrations-in-rancher/monitoring-and-alerting/promql-expressions  
+
 # dashboards  
 https://grafana.com/orgs/wanghy8166/dashboards  
 
